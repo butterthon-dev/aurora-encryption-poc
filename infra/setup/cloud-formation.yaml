@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Terraform backend S3 bucket
+
+Parameters:
+  Env:
+    Type: String
+    Description: Environment name (e.g. dev, stg, prod)
+  System:
+    Type: String
+    Description: System name
+
+Resources:
+  # S3 Bucket for Terraform state
+  TfStateBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${Env}-${System}-terraform-state-bucket
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+Outputs:
+  TfStateBucketName:
+    Value: !Ref TfStateBucket
