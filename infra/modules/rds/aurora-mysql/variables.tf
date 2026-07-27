@@ -116,3 +116,9 @@ variable "storage_encrypted" {
   description = "DBクラスタの暗号化を有効化するかどうか"
   default     = false
 }
+
+variable "snapshot_identifier" {
+  type        = string
+  description = "このクラスターをスナップショットから作成するかどうかを指定する。DBクラスターのスナップショットを指定する場合は名前またはARNのいずれかを使用でき、DBスナップショットを指定する場合はARNを使用する。"
+  default     = null
+}

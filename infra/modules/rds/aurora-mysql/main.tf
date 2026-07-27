@@ -150,6 +150,7 @@ resource "aws_rds_cluster" "this" {
   final_snapshot_identifier       = var.final_snapshot_identifier
   apply_immediately               = var.apply_immediately
   storage_encrypted               = var.storage_encrypted
+  snapshot_identifier             = var.snapshot_identifier
 
   lifecycle {
     ignore_changes = [

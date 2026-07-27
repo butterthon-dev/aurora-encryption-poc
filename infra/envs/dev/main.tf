@@ -24,5 +24,7 @@ module "compute" {
   #
   #   falseとtrueで暗号化キーに設定されるキーが微妙に異なるため、
   #   スナップショットからの復元後にstorage_encryptedをtrueにしてterraform import（実際はimport block）することで本検証を行う。
-  storage_encrypted  = false
+  storage_encrypted = false
+
+  bastion_subnet_id = module.network.private_subnet_ids[0]
 }
