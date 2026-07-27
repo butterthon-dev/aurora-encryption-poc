@@ -18,6 +18,7 @@ module "compute" {
   vpc_id             = module.network.vpc_id
   subnet_ids         = module.network.private_subnet_ids
   availability_zones = ["us-west-2a", "us-west-2c"]
+  bastion_subnet_id  = module.network.private_subnet_ids[0]
 
   # NOTE:
   #   初回構築時はfalse（2026年2月からfalseでもデフォルト暗号化が適用されるようにはなってしまったので、暗号化を無効化にすることができなくなった）
@@ -25,6 +26,4 @@ module "compute" {
   #   falseとtrueで暗号化キーに設定されるキーが微妙に異なるため、
   #   スナップショットからの復元後にstorage_encryptedをtrueにしてterraform import（実際はimport block）することで本検証を行う。
   storage_encrypted = false
-
-  bastion_subnet_id = module.network.private_subnet_ids[0]
 }
