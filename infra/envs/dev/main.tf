@@ -1,6 +1,11 @@
 locals {
-  name_prefix = "${var.env}-${var.system}"
+  name_prefix    = "${var.env}-${var.system}"
+  aws_account_id = data.aws_caller_identity.current.account_id
+  region         = data.aws_region.current.region
 }
+
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
 
 module "network" {
   source = "../../stacks/core-network"
@@ -26,4 +31,7 @@ module "compute" {
   #   falseとtrueで暗号化キーに設定されるキーが微妙に異なるため、
   #   スナップショットからの復元後にstorage_encryptedをtrueにしてterraform import（実際はimport block）することで本検証を行う。
   storage_encrypted = false
+
+  snapshot_identifier = "arn:aws:rds:${local.region}:${local.aws_account_id}:cluster-snapshot:dev-poc-cluster-main-20260727"
+  kms_key_id          = "arn:aws:kms:${local.region}:${local.aws_account_id}:key/81298318-0e43-471f-bb31-4243af26f5c4" # AWSマネージド型キー「aws/rds」のキーARN
 }

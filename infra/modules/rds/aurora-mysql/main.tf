@@ -66,7 +66,7 @@ resource "aws_rds_cluster_parameter_group" "this" {
 
 # RDS が拡張モニタリングメトリクスをCloudWatch Logsに送信することを許可するIAMロール。
 resource "aws_iam_role" "monitoring_role" {
-  name = "${var.name_prefix}-role-${var.name}-monitoring"
+  name = "${var.name_prefix}-role-main-monitoring"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -151,6 +151,7 @@ resource "aws_rds_cluster" "this" {
   apply_immediately               = var.apply_immediately
   storage_encrypted               = var.storage_encrypted
   snapshot_identifier             = var.snapshot_identifier
+  kms_key_id                      = var.kms_key_id
 
   lifecycle {
     ignore_changes = [
