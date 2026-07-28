@@ -187,3 +187,29 @@ resource "aws_rds_cluster_instance" "writer_instance" {
 resource "aws_cloudwatch_log_group" "error" {
   name = "/aws/rds/instance/${aws_rds_cluster.this.cluster_identifier}/error"
 }
+
+
+# アプリ向けのパラメータストア
+resource "aws_ssm_parameter" "master_username" {
+  name  = "${var.name_prefix}-param-master_username"
+  type  = "String"
+  value = aws_rds_cluster.this.master_username
+}
+
+resource "aws_ssm_parameter" "reader_endpoint" {
+  name  = "${var.name_prefix}-param-rds_reader_endpoint"
+  type  = "String"
+  value = aws_rds_cluster.this.reader_endpoint
+}
+
+resource "aws_ssm_parameter" "writer_endpoint" {
+  name  = "${var.name_prefix}-param-rds_writer_endpoint"
+  type  = "String"
+  value = aws_rds_cluster.this.endpoint
+}
+
+resource "aws_ssm_parameter" "database_name" {
+  name  = "${var.name_prefix}-param-rds_database_name"
+  type  = "String"
+  value = aws_rds_cluster.this.database_name
+}
